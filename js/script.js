@@ -39,7 +39,7 @@ design.addEventListener('input', () => {
     colorOptions[0].style.display = 'none';
 });
 
-
+//"Register for Activities" section
 const activities = document.getElementById('activities');
 const total = document.getElementById('activities-cost');
 let totalCost = 0;
@@ -54,3 +54,24 @@ activities.addEventListener('input', () => {
     total.innerHTML = `Total: ${totalCost}`;
 });
 
+// "Payment Info" section
+const paymentSelection = document.getElementById('payment');
+const paymentOptions = document.querySelectorAll('#payment option');
+paymentSelection[1].selected = true;
+
+paymentSelection.addEventListener('input',() => {
+    const expirationBox = document.querySelector('.expiration-box')
+    const CreditCardBox = document.querySelector('.credit-card-box')
+    if (paymentSelection[1].selected == false) {
+        expirationBox.style.display = 'none';
+        CreditCardBox.style.display = 'none';        
+    } else {
+        expirationBox.style.display = '';
+        CreditCardBox.style.display = '';
+    }
+});
+
+// Form Validation
+document.querySelector('form').addEventListener('submit', () => {
+    
+});
