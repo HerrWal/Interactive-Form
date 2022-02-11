@@ -71,7 +71,57 @@ paymentSelection.addEventListener('input',() => {
     }
 });
 
-// Form Validation
+/***  Form Validation ***/
+
+//Helper function for name validation.
+const nameValidation = () => {
+    const nameField = document.getElementById('name');
+    const nameValidator = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameField);    
+    return nameValidator
+}
+
+//Helper function for email validation.
+const emailvalidation = () => {
+    const email = document.querySelector("#email");
+    const emailValue = email.value;
+    const emailValidator = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue)    
+    return emailValidator
+}
+
+//Helper function for activities validation
+const actValidation = () => {
+    const actValidator = totalCost > 0;
+    return actValidator
+}
+
+//Helper function for CC validation
+const ccValidation = () => {
+    const CreditCardBox = document.querySelector('.credit-card-box')
+    const ccValue = CreditCardBox.value;
+    const ccValidator = /^\d{13,16}$/.test(ccValue);
+    return ccValidator
+}
+
 document.querySelector('form').addEventListener('submit', () => {
-    
+    if (!nameValidation()) {
+        event.preventDefault();
+        console.log('Name field cannot be empty');
+    }
+
+    if (!emailvalidation()) {
+        event.preventDefault();
+        console.log('Please enter the username, followed by “@”, followed by a few more characters and a “.com” for the domain name.');
+    }
+
+    if (!actValidation()) {
+        event.preventDefault();
+        console.log('Select at least one activity')
+    }
+
+    if (paymentSelection[1].selected = true) {
+        if (!ccValidation()) {
+            event.preventDefault()
+            console.log('Must contain a 13 - 16 digit credit card number with no dashes or spaces.');
+        }
+    }
 });
