@@ -1,5 +1,3 @@
-console.log("test");
-
 document.getElementById('name').focus();
 
 
@@ -50,7 +48,6 @@ activities.addEventListener('input', () => {
     } else {
         totalCost -= selectedCost
     }
-    console.log(totalCost)
     total.innerHTML = `Total: ${totalCost}`;
 });
 
@@ -65,46 +62,69 @@ paymentSelection.addEventListener('input',() => {
     if (paymentSelection[1].selected == false) {
         expirationBox.style.display = 'none';
         CreditCardBox.style.display = 'none';        
-    } else {
+    } else if (paymentSelection[1].selected == true) {
         expirationBox.style.display = '';
         CreditCardBox.style.display = '';
     }
 });
 
+
 /***  Form Validation ***/
 
-//Helper function for name validation.
+
+//Helper functions
+
+const nameField = document.getElementById('name');
+const email = document.querySelector("#email");
+const cc = document.getElementById('cc-num');
+const zip = document.getElementById('zip');
+const cvv = document.getElementById('cvv');
+
+//Name validation helper
 const nameValidation = () => {
-    const nameField = document.getElementById('name');
-    const nameValidator = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(nameField);    
+    const nameFieldValue = nameField.value;
+    const nameValidator = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/i.test(nameFieldValue);    
     return nameValidator
 }
 
-//Helper function for email validation.
+//Email validation helper
 const emailvalidation = () => {
-    const email = document.querySelector("#email");
     const emailValue = email.value;
     const emailValidator = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue)    
     return emailValidator
 }
 
-//Helper function for activities validation
+//Activities validation helper
 const actValidation = () => {
     const actValidator = totalCost > 0;
     return actValidator
 }
 
-//Helper function for CC validation
+//CC validation helper
 const ccValidation = () => {
-    const CreditCardBox = document.querySelector('.credit-card-box')
-    const ccValue = CreditCardBox.value;
+    const ccValue = cc.value;
     const ccValidator = /^\d{13,16}$/.test(ccValue);
     return ccValidator
 }
 
+//zip validation helper
+const zipValidation = () => {
+    const zipValue = zip.value;
+    const zipValidator = /^\d{5}$/.test(zipValue);
+    return zipValidator
+}
+
+//CVV validation helper
+const cvvValidation = () => {
+    const cvv = document.getElementById('cvv').value;
+    const cvvValidator = /^\d{3}$/.test(cvv);
+    return cvvValidator
+}
+
+//Submit Handler
 document.querySelector('form').addEventListener('submit', () => {
     if (!nameValidation()) {
-        event.preventDefault();
+        event.preventDefault();        
         console.log('Name field cannot be empty');
     }
 
@@ -118,10 +138,38 @@ document.querySelector('form').addEventListener('submit', () => {
         console.log('Select at least one activity')
     }
 
-    if (paymentSelection[1].selected = true) {
+    if (paymentSelection[1].selected == true) {
         if (!ccValidation()) {
-            event.preventDefault()
+            event.preventDefault();
             console.log('Must contain a 13 - 16 digit credit card number with no dashes or spaces.');
+        }
+
+        if (!zipValidation()) {
+            event.preventDefault();
+            console.log('Zip code must contain a 5 digit number');
+        }
+    
+        if (!cvvValidation()) {
+            event.preventDefault();
+            console.log('CVV must contain a 3 digit number');
         }
     }
 });
+
+
+/*** Accessibility ***/
+
+//Checkboxes
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+console.log(checkboxes)
+for (let i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('focus', () => {
+        checkboxes[i].parentElement.classList.add('focus');
+    });
+    checkboxes[i].addEventListener('blur', () => {
+        checkboxes[i].parentElement.classList.add('blur');
+        checkboxes[i].parentElement.classList.remove('focus');
+    });
+}
+
+
