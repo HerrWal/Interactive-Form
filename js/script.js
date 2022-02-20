@@ -121,6 +121,32 @@ const cvvValidation = () => {
     return cvvValidator
 }
 
+
+/*** Accessibility ***/
+
+//Checkboxes
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+for (let i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('focus', () => {
+        checkboxes[i].parentElement.classList.add('focus');
+    });
+    checkboxes[i].addEventListener('blur', () => {
+        checkboxes[i].parentElement.classList.add('blur');
+        checkboxes[i].parentElement.classList.remove('focus');
+    });
+}
+
+// Error Messages
+
+// name label
+const nameLabel = nameField.parentElement;
+// email label
+const emailLabel = email.parentElement;
+// activities fieldset
+// payment section
+// const payMethodBox = document.getElementsByClassName('payment-method-box');
+const payMethodLabel = paymentSelection.previousElementSibling;
+
 //Submit Handler
 document.querySelector('form').addEventListener('submit', () => {
     if (!nameValidation()) {
@@ -135,7 +161,7 @@ document.querySelector('form').addEventListener('submit', () => {
 
     if (!actValidation()) {
         event.preventDefault();
-        console.log('Select at least one activity')
+        console.log('Select at least one activity');
     }
 
     if (paymentSelection[1].selected == true) {
@@ -155,21 +181,3 @@ document.querySelector('form').addEventListener('submit', () => {
         }
     }
 });
-
-
-/*** Accessibility ***/
-
-//Checkboxes
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-console.log(checkboxes)
-for (let i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener('focus', () => {
-        checkboxes[i].parentElement.classList.add('focus');
-    });
-    checkboxes[i].addEventListener('blur', () => {
-        checkboxes[i].parentElement.classList.add('blur');
-        checkboxes[i].parentElement.classList.remove('focus');
-    });
-}
-
-
