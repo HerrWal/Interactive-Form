@@ -69,7 +69,7 @@ paymentSelection.addEventListener("input", () => {
   }
 });
 
-/***  Form Validation ***/
+/***Form Validation***/
 
 //Helper functions
 
@@ -136,77 +136,62 @@ for (let i = 0; i < checkboxes.length; i++) {
   });
 }
 
-// Error Messages
-function label(element) {    
-    return element.parentElement;
-}
-
-// Hint messages
-const hint = label.lastElementChild;
-
-//Submit Handler
+/***Submit Listener***/
 document.querySelector("form").addEventListener("submit", () => {
-
-  // valid / not valid functions
-  
-  function validOrNot (field, valid1, valid2 ) {
-    const label = field.parentElement;    
+  // valid or not valid function
+  function validOrNot(field, valid1, valid2) {
+    const label = field.parentElement;
     const hint = label.lastElementChild;
     label.classList.add(valid1);
     label.classList.remove(valid2);
-    hint.style.display = 'inline';
-    console.log(hint);  
+    if ((hint.style.display = "none")) {
+      hint.style.display = "inline";
+    }
+    if (valid1 === "valid") {
+      hint.style.display = "none";
+    }
   }
 
   if (!nameValidation()) {
-    event.preventDefault();
-    console.log("Name field cannot be empty");
-    validOrNot (nameField, "not-valid", "valid");
-  }  else {
-    validOrNot (nameField, "valid", "not-valid");
+    event.preventDefault();    
+    validOrNot(nameField, "not-valid", "valid");
+  } else {
+    validOrNot(nameField, "valid", "not-valid");
   }
 
   if (!emailvalidation()) {
     event.preventDefault();
-    console.log(
-      "Please enter the username, followed by “@”, followed by a few more characters and a “.com” for the domain name."
-    );validOrNot (email, "not-valid", "valid");
-}  else {
-  validOrNot (email, "valid", "not-valid");
-}
+    validOrNot(email, "not-valid", "valid");
+  } else {
+    validOrNot(email, "valid", "not-valid");
+  }
 
   if (!actValidation()) {
     event.preventDefault();
-    console.log("Select at least one activity");
     activities.classList.add("not-valid");
     activities.classList.remove("valid");
-  } 
+  }
 
   if (paymentSelection[1].selected == true) {
     if (!ccValidation()) {
       event.preventDefault();
-      console.log(
-        "Must contain a 13 - 16 digit credit card number with no dashes or spaces."
-      );
-      validOrNot (cc, "not-valid", "valid");
-    }  else {
-      validOrNot (cc, "valid", "not-valid");
+      validOrNot(cc, "not-valid", "valid");
+    } else {
+      validOrNot(cc, "valid", "not-valid");
     }
 
     if (!zipValidation()) {
       event.preventDefault();
-      console.log("Zip code must contain a 5 digit number");
-      validOrNot (zip, "not-valid", "valid");
-    }  else {
-      validOrNot (zip, "valid", "not-valid");
+      validOrNot(zip, "not-valid", "valid");
+    } else {
+      validOrNot(zip, "valid", "not-valid");
     }
 
     if (!cvvValidation()) {
       event.preventDefault();
-      console.log("CVV must contain a 3 digit number");
-      validOrNot (cvv, "not-valid", "valid");
-    }  else {
-      validOrNot (cvv, "valid", "not-valid");
+      validOrNot(cvv, "not-valid", "valid");
+    } else {
+      validOrNot(cvv, "valid", "not-valid");
     }
   }
 });
