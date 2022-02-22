@@ -195,3 +195,33 @@ document.querySelector("form").addEventListener("submit", () => {
     }
   }
 });
+
+
+/***Extra Credits***/
+
+  // When a user selects an activity, loop over all of the activities, 
+  // check if any have the same day and time as the activity that was 
+  // just checked/unchecked, and as long as the matching activity is not the 
+  // activity that was just checked/unchecked, disable/enable the conflicting 
+  // activity’s checkbox input and add/remove the ‘.disabled’ className to activity’s 
+  // parent label element.
+
+
+activities.addEventListener("change", () => {  
+  const activitiesCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+  const checked = event.target;
+  const checkdDayAndTime = checked.getAttribute('data-day-and-time');
+
+  for (let i = 1; i < activitiesCheckboxes.length; i++) {
+    
+    const actDayAndTime = activitiesCheckboxes[i].getAttribute('data-day-and-time');
+    
+    if (checkdDayAndTime === actDayAndTime && checked !== activitiesCheckboxes[i]) {
+      if (checked.checked) {
+        activitiesCheckboxes[i].disabled = true;
+      } else {
+        activitiesCheckboxes[i].disabled = false;
+      }
+    }  
+  }
+});
