@@ -49,7 +49,7 @@ activities.addEventListener("input", () => {
   } else {
     totalCost -= selectedCost;
   }
-  total.innerHTML = `Total: ${totalCost}`;
+  total.innerHTML = `Total:$${totalCost}`;
 });
 
 // "Payment Info" section
