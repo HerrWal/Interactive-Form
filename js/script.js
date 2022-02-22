@@ -71,7 +71,7 @@ paymentSelection.addEventListener("input", () => {
 
 /***Form Validation***/
 
-//Helper functions
+/*Helper functions*/
 
 const nameField = document.getElementById("name");
 const email = document.querySelector("#email");
@@ -97,7 +97,7 @@ const emailvalidation = () => {
 
 //Activities validation helper
 const actValidation = () => {
-  const actValidator = totalCost > 0;
+  const actValidator = /^\d\d\d$/.test(totalCost);
   return actValidator;
 };
 
@@ -124,7 +124,7 @@ const cvvValidation = () => {
 
 /*** Accessibility ***/
 
-//Checkboxes
+// Checkboxes
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 for (let i = 0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener("focus", () => {
@@ -136,24 +136,25 @@ for (let i = 0; i < checkboxes.length; i++) {
   });
 }
 
-/***Submit Listener***/
-document.querySelector("form").addEventListener("submit", () => {
-  // valid or not valid function
-  function validOrNot(field, valid1, valid2) {
-    const label = field.parentElement;
-    const hint = label.lastElementChild;
-    label.classList.add(valid1);
-    label.classList.remove(valid2);
-    if ((hint.style.display = "none")) {
-      hint.style.display = "inline";
-    }
-    if (valid1 === "valid") {
-      hint.style.display = "none";
-    }
+// valid or not valid function
+function validOrNot(field, valid1, valid2) {
+  const label = field.parentElement;
+  const hint = label.lastElementChild;
+  label.classList.add(valid1);
+  label.classList.remove(valid2);
+  if ((hint.style.display = "none")) {
+    hint.style.display = "inline";
   }
+  if (valid1 === "valid") {
+    hint.style.display = "none";
+  }
+}
 
+/***Submit Listener***/
+
+const allValidations = () => {
   if (!nameValidation()) {
-    event.preventDefault();    
+    event.preventDefault();
     validOrNot(nameField, "not-valid", "valid");
   } else {
     validOrNot(nameField, "valid", "not-valid");
@@ -170,6 +171,13 @@ document.querySelector("form").addEventListener("submit", () => {
     event.preventDefault();
     activities.classList.add("not-valid");
     activities.classList.remove("valid");
+    document.getElementById("activities-hint").style.display = "inline";
+    console.log("Not valid de la **** madre!");
+  } else {
+    activities.classList.add("valid");
+    activities.classList.remove("not-valid");
+    document.getElementById("activities-hint").style.display = "none";
+    console.log("Deberia estar valid c***!");
   }
 
   if (paymentSelection[1].selected == true) {
@@ -194,34 +202,40 @@ document.querySelector("form").addEventListener("submit", () => {
       validOrNot(cvv, "valid", "not-valid");
     }
   }
-});
+};
+
 
 
 /***Extra Credits***/
 
-  // When a user selects an activity, loop over all of the activities, 
-  // check if any have the same day and time as the activity that was 
-  // just checked/unchecked, and as long as the matching activity is not the 
-  // activity that was just checked/unchecked, disable/enable the conflicting 
-  // activity’s checkbox input and add/remove the ‘.disabled’ className to activity’s 
-  // parent label element.
-
-
-activities.addEventListener("change", () => {  
-  const activitiesCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+// Prevent users from registering for conflicting activities
+activities.addEventListener("change", () => {
+  const activitiesCheckboxes = document.querySelectorAll(
+    'input[type="checkbox"]'
+  );
   const checked = event.target;
-  const checkdDayAndTime = checked.getAttribute('data-day-and-time');
+  const checkdDayAndTime = checked.getAttribute("data-day-and-time");
 
   for (let i = 1; i < activitiesCheckboxes.length; i++) {
-    
-    const actDayAndTime = activitiesCheckboxes[i].getAttribute('data-day-and-time');
-    
-    if (checkdDayAndTime === actDayAndTime && checked !== activitiesCheckboxes[i]) {
+    const actDayAndTime =
+      activitiesCheckboxes[i].getAttribute("data-day-and-time");
+    if (
+      checkdDayAndTime === actDayAndTime &&
+      checked !== activitiesCheckboxes[i]
+    ) {
       if (checked.checked) {
         activitiesCheckboxes[i].disabled = true;
       } else {
         activitiesCheckboxes[i].disabled = false;
       }
-    }  
+    }
   }
 });
+
+// Real-time error message
+document.querySelector("form").addEventListener("submit", () => {
+  allValidations();
+  document.querySelector("form").addEventListener("keyup", allValidations);
+});
+
+activities.addEventListener("change", allValidations);
