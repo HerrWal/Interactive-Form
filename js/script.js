@@ -1,28 +1,31 @@
+// Name fiel focus
 document.getElementById("name").focus();
 
+/***Job Role section***/
+
+// When the user selects "Other" on the job role dropdown a text field should appear.
 const otherJob = document.getElementById("other-job-role");
 otherJob.style.display = "none";
-
 const jobRole = document.getElementById("title");
-
 jobRole.addEventListener("input", (e) => {
   event.target.value === "other"
     ? (otherJob.style.display = "")
     : (otherJob.style.display = "none");
 });
 
+/***T-Shirt section***/
+
+// Color selection disabled
 color.disabled = true;
 
 const designOptions = document.querySelectorAll(".shirt-designs option");
 const colorOptions = document.querySelectorAll("#color option");
 
-// Program the "Design" <select> element to listen for user changes.
+//  "Design" Listener to listen for user changes.
+//  The Color dropdown shows selected design options only.
 design.addEventListener("input", () => {
-  // When a change is detected:
-  // - The "Color" <select> element should be enabled.
   color.disabled = false;
   const selected = event.target.value;
-  // - The "Color" <select> element should display an available color.
   for (let i = 0; i < colorOptions.length; i++) {
     const ColorOptionTheme = colorOptions[i].getAttribute("data-theme");
     const availableColors = () => {
@@ -38,7 +41,9 @@ design.addEventListener("input", () => {
   colorOptions[0].style.display = "none";
 });
 
-//"Register for Activities" section
+/***Register for Activities section***/
+
+// The total amount reflects sum of selected activities
 const activities = document.getElementById("activities");
 const total = document.getElementById("activities-cost");
 let totalCost = 0;
@@ -49,14 +54,17 @@ activities.addEventListener("input", () => {
   } else {
     totalCost -= selectedCost;
   }
-  total.innerHTML = `Total:$${totalCost}`;
+  total.innerHTML = `Total: $${totalCost}`;
 });
 
-// "Payment Info" section
+/***Payment Info section***/
+
 const paymentSelection = document.getElementById("payment");
 const paymentOptions = document.querySelectorAll("#payment option");
+// Credit card payment selected
 paymentSelection[1].selected = true;
-
+// Listener to listen for changes in payment methods
+// When a method is selected, all other payment sections are hidden
 paymentSelection.addEventListener("input", () => {
   const expirationBox = document.querySelector(".expiration-box");
   const CreditCardBox = document.querySelector(".credit-card-box");
@@ -72,6 +80,8 @@ paymentSelection.addEventListener("input", () => {
 /***Form Validation***/
 
 /*Helper functions*/
+
+//The following functions evaluate the input and return a boolean
 
 const nameField = document.getElementById("name");
 const email = document.querySelector("#email");
@@ -91,7 +101,7 @@ const nameValidation = () => {
 //Email validation helper
 const emailvalidation = () => {
   const emailValue = email.value;
-  const emailValidator = /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailValue);
+  const emailValidator = /^[^@]+@[^@.]+\.com+$/i.test(emailValue);
   return emailValidator;
 };
 
@@ -124,7 +134,9 @@ const cvvValidation = () => {
 
 /*** Accessibility ***/
 
-// Checkboxes
+// The following are web experiences programmed to make the form accessible
+
+// Checkboxes are highlighted when focused while the rest are blurred.
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 for (let i = 0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener("focus", () => {
@@ -136,7 +148,8 @@ for (let i = 0; i < checkboxes.length; i++) {
   });
 }
 
-// valid or not valid function
+// valid or not valid function. This adds indicators to the required elements input validations
+// and display helpful hints to the user.
 function validOrNot(field, valid1, valid2) {
   const label = field.parentElement;
   const hint = label.lastElementChild;
@@ -152,6 +165,7 @@ function validOrNot(field, valid1, valid2) {
 
 /***Submit Listener***/
 
+//This function contains all required fields validations
 const allValidations = () => {
   if (!nameValidation()) {
     event.preventDefault();
@@ -204,9 +218,9 @@ const allValidations = () => {
   }
 };
 
+document.querySelector("form").addEventListener("submit", allValidations);
 
-
-/***Extra Credits***/
+/***Extra Credit section***/
 
 // Prevent users from registering for conflicting activities
 activities.addEventListener("change", () => {
@@ -232,10 +246,20 @@ activities.addEventListener("change", () => {
   }
 });
 
-// Real-time error message
-document.querySelector("form").addEventListener("submit", () => {
-  allValidations();
-  document.querySelector("form").addEventListener("keyup", allValidations);
-});
+// Real-time error message. I chose the email validation.
+// Conditional error message. I chose the email validation once again.
+email.addEventListener("keyup", () => {
+  if (!emailvalidation()) {
+    event.preventDefault();
+    validOrNot(email, "not-valid", "valid");
+  } else {
+    validOrNot(email, "valid", "not-valid");
+  }
 
-activities.addEventListener("change", allValidations);
+  if (email.value === "") {
+    document.querySelector("#email-hint").innerHTML =
+      "Please provide an Email Address";
+  } else
+    document.querySelector("#email-hint").innerHTML =
+      "Email address must be formatted correctly";
+});
