@@ -5,4 +5,4 @@
  
  And customized JavaScript code to add conditional behavior and interactivity using regular expressions in conjuction with validations and conditional formating.
 
- 
+ The email field is programmed to listen for user changes in real-time to validate user's input. And also have a conditional error message feature.
