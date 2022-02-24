@@ -71,27 +71,27 @@ paypal.style.display = "none";
 bitcoin.style.display = "none";
 // Listener to listen for changes in payment methods
 // When a method is selected, all other payment sections are hidden
-paymentSelection.addEventListener("input", () => {  
-    let paymentValue = event.target.value;
-    switch (paymentValue) {    
-      case "credit-card":
-        expirationBox.style.display = "";
-        CreditCardBox.style.display = "";
-        paypal.style.display = "none";
-        bitcoin.style.display = "none";
-        break    
-      case "paypal":
-        expirationBox.style.display = "none";
-        CreditCardBox.style.display = "none";
-        paypal.style.display = "";
-        bitcoin.style.display = "none";
+paymentSelection.addEventListener("input", () => {
+  let paymentValue = event.target.value;
+  switch (paymentValue) {
+    case "credit-card":
+      expirationBox.style.display = "";
+      CreditCardBox.style.display = "";
+      paypal.style.display = "none";
+      bitcoin.style.display = "none";
       break;
-      case "bitcoin":
-        expirationBox.style.display = "none";
-        CreditCardBox.style.display = "none";
-        paypal.style.display = "none";
-        bitcoin.style.display = "";
-      break;   
+    case "paypal":
+      expirationBox.style.display = "none";
+      CreditCardBox.style.display = "none";
+      paypal.style.display = "";
+      bitcoin.style.display = "none";
+      break;
+    case "bitcoin":
+      expirationBox.style.display = "none";
+      CreditCardBox.style.display = "none";
+      paypal.style.display = "none";
+      bitcoin.style.display = "";
+      break;
   }
 });
 
