@@ -61,19 +61,37 @@ activities.addEventListener("input", () => {
 
 const paymentSelection = document.getElementById("payment");
 const paymentOptions = document.querySelectorAll("#payment option");
-// Credit card payment selected
+const expirationBox = document.querySelector(".expiration-box");
+const CreditCardBox = document.querySelector(".credit-card-box");
+const paypal = document.getElementById("paypal");
+const bitcoin = document.getElementById("bitcoin");
+// Credit card payment selected and all other methods are not displayed
 paymentSelection[1].selected = true;
+paypal.style.display = "none";
+bitcoin.style.display = "none";
 // Listener to listen for changes in payment methods
 // When a method is selected, all other payment sections are hidden
-paymentSelection.addEventListener("input", () => {
-  const expirationBox = document.querySelector(".expiration-box");
-  const CreditCardBox = document.querySelector(".credit-card-box");
-  if (paymentSelection[1].selected == false) {
-    expirationBox.style.display = "none";
-    CreditCardBox.style.display = "none";
-  } else if (paymentSelection[1].selected == true) {
-    expirationBox.style.display = "";
-    CreditCardBox.style.display = "";
+paymentSelection.addEventListener("input", () => {  
+    let paymentValue = event.target.value;
+    switch (paymentValue) {    
+      case "credit-card":
+        expirationBox.style.display = "";
+        CreditCardBox.style.display = "";
+        paypal.style.display = "none";
+        bitcoin.style.display = "none";
+        break    
+      case "paypal":
+        expirationBox.style.display = "none";
+        CreditCardBox.style.display = "none";
+        paypal.style.display = "";
+        bitcoin.style.display = "none";
+      break;
+      case "bitcoin":
+        expirationBox.style.display = "none";
+        CreditCardBox.style.display = "none";
+        paypal.style.display = "none";
+        bitcoin.style.display = "";
+      break;   
   }
 });
 
